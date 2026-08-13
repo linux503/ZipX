@@ -1,0 +1,7 @@
+{
+  "version": "1.1.1",
+  "notes": "ZipX 1.1.1 Universal：支持 ZIP / 7Z / RAR 压缩解压预览；先选文件再选操作；新 Logo。",
+  "url": "https://linux503.github.io/ZipX/",
+  "dmg": "https://linux503.github.io/ZipX/downloads/ZipX-1.1.1-Universal.dmg",
+  "sha256": "3ab7a27655e82ce71950bf076a7828806df35a3af33e6287fd1e7b44b8708640"
+}

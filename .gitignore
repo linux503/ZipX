@@ -1,0 +1,14 @@
+# 本地产物
+.build/
+.build-universal/
+.dmg-stage/
+dist/
+*.tmp.dmg
+
+# 系统
+.DS_Store
+*.swp
+xcuserdata/
+DerivedData/
+
+# 可选：大体积下载包仍提交到 website/downloads 供 GitHub Pages
