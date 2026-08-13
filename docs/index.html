@@ -11,7 +11,7 @@
   <link rel="icon" href="assets/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -53,61 +53,120 @@
     </section>
 
     <section class="features" id="features">
-      <div class="section-title">
-        <h2>一套工具，归档全搞定</h2>
-        <p>压缩、解压、预览、加密压缩、分卷压缩、固实压缩——日常文件管理一次配齐。</p>
+      <div class="section-title reveal">
+        <p class="eyebrow">Capabilities</p>
+        <h2>为日常归档重新设计的能力</h2>
+        <p>不是功能堆砌，而是把压缩、解压、预览做成一条清楚的工作流。</p>
       </div>
-      <div class="feature-grid">
-        <article>
-          <span class="tag coral">ZIP</span>
-          <h3>压缩 / 解压</h3>
-          <p>ZIP、7Z、RAR 开箱即用，大文件也稳。</p>
+
+      <div class="spotlights">
+        <article class="spotlight reveal">
+          <div class="spotlight-copy">
+            <span class="index">01</span>
+            <h3>压缩与解压，开箱即用</h3>
+            <p>内置 7-Zip 引擎，ZIP / 7Z / RAR 解压与 7Z 压缩直接可用。大文件也稳，少折腾环境依赖。</p>
+            <ul class="specs">
+              <li>ZIP · 7Z · RAR</li>
+              <li>Universal Binary</li>
+              <li>引擎已内置</li>
+            </ul>
+          </div>
+          <div class="spotlight-visual" aria-hidden="true">
+            <div class="visual-panel tone-coral">
+              <div class="vp-row"><i></i><span>项目资料.zip</span><b>压缩完成</b></div>
+              <div class="vp-row"><i></i><span>素材包.rar</span><b>解压就绪</b></div>
+              <div class="vp-row"><i></i><span>归档.7z</span><b>固实 · 加密</b></div>
+              <div class="vp-bar"><span></span></div>
+            </div>
+          </div>
         </article>
-        <article>
-          <span class="tag blue">预览</span>
-          <h3>不解压先看</h3>
-          <p>直接浏览包内文件列表，少走弯路。</p>
+
+        <article class="spotlight reverse reveal">
+          <div class="spotlight-copy">
+            <span class="index">02</span>
+            <h3>不解压，先预览内容</h3>
+            <p>打开压缩包即可浏览内部文件列表。确认无误再解压，少占空间，也少走冤枉路。</p>
+            <ul class="specs">
+              <li>包内文件列表</li>
+              <li>支持加密预览</li>
+              <li>秒级响应</li>
+            </ul>
+          </div>
+          <div class="spotlight-visual" aria-hidden="true">
+            <div class="visual-panel tone-blue">
+              <div class="vp-head">Archive Preview</div>
+              <div class="vp-tree">
+                <span>📁 Design/</span>
+                <span> 📄 cover.pdf</span>
+                <span> 📄 assets.zip</span>
+                <span>📄 readme.md</span>
+              </div>
+            </div>
+          </div>
         </article>
-        <article>
-          <span class="tag coral">安全</span>
-          <h3>加密压缩</h3>
-          <p>敏感资料加密码，分享更安心。</p>
+
+        <article class="spotlight reveal">
+          <div class="spotlight-copy">
+            <span class="index">03</span>
+            <h3>加密、分卷、固实，一次配齐</h3>
+            <p>敏感文件加密码，超大文件可分卷，固实压缩更省空间。需要时再展开选项，默认保持干净。</p>
+            <ul class="specs">
+              <li>密码保护</li>
+              <li>分卷输出</li>
+              <li>固实压缩</li>
+            </ul>
+          </div>
+          <div class="spotlight-visual" aria-hidden="true">
+            <div class="visual-panel tone-ink">
+              <div class="vp-chips">
+                <em>AES 加密</em>
+                <em>100MB 分卷</em>
+                <em>Solid</em>
+              </div>
+              <p class="vp-quote">先选文件，再选操作。<br />复杂选项不挡路。</p>
+            </div>
+          </div>
         </article>
-        <article>
-          <span class="tag teal">体积</span>
-          <h3>分卷 · 固实</h3>
-          <p>大包可拆分，固实压缩更省空间。</p>
-        </article>
-        <article>
-          <span class="tag blue">速度</span>
-          <h3>多线程加速</h3>
-          <p>吃满 CPU，压缩更快、等待更少。</p>
-        </article>
-        <article>
-          <span class="tag teal">流程</span>
-          <h3>选完再操作</h3>
-          <p>先选文件，再点压缩或解压，清晰不绕。</p>
-        </article>
+      </div>
+
+      <div class="capability-rail reveal">
+        <div class="cap">
+          <strong>多线程加速</strong>
+          <span>吃满多核，压缩更快</span>
+        </div>
+        <div class="cap">
+          <strong>先选再操作</strong>
+          <span>流程清晰，不绕弯</span>
+        </div>
+        <div class="cap">
+          <strong>原目录输出</strong>
+          <span>压完、解完就近可取</span>
+        </div>
+        <div class="cap">
+          <strong>自动检查更新</strong>
+          <span>新版本可主动升级</span>
+        </div>
       </div>
     </section>
 
     <section class="flow" id="flow">
-      <div class="section-title">
+      <div class="section-title reveal">
+        <p class="eyebrow">Workflow</p>
         <h2>三步完成</h2>
         <p>让 Mac 压缩解压便捷、优雅。</p>
       </div>
       <ol class="steps">
-        <li>
+        <li class="reveal">
           <em>01</em>
           <strong>选中文件</strong>
           <span>拖入或点选文件 / 文件夹 / 压缩包</span>
         </li>
-        <li>
+        <li class="reveal">
           <em>02</em>
           <strong>选择操作</strong>
           <span>压缩、解压或预览，按需设置密码与分卷</span>
         </li>
-        <li>
+        <li class="reveal">
           <em>03</em>
           <strong>一键完成</strong>
           <span>多核处理，结果直接在 Finder 中打开</span>
@@ -116,7 +175,7 @@
     </section>
 
     <section class="download" id="download">
-      <div class="download-card">
+      <div class="download-band reveal">
         <img src="assets/logo.png" alt="" width="64" height="64" />
         <div>
           <h2>下载 ZipX</h2>
