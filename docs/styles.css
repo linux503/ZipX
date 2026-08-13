@@ -104,82 +104,39 @@ main,
 }
 
 .hero {
-  min-height: calc(100vh - 4.5rem);
-  position: relative;
-  display: grid;
-  align-items: end;
-  padding: 0 1.5rem 4.5rem;
   max-width: 1120px;
   margin: 0 auto;
+  padding: 0.5rem 1.5rem 2.5rem;
 }
 
-.hero-plane {
-  position: absolute;
-  inset: 0 -8% 18%;
-  border-radius: 0 0 48px 48px;
+.hero-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 1.5rem;
+  align-items: center;
+  min-height: min(72vh, 640px);
+  padding: 3.2rem 3rem 3rem;
+  border-radius: 32px;
   overflow: hidden;
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.05)),
-    linear-gradient(160deg, #ffd2c4 0%, #f25938 42%, #c4282a 100%);
-  box-shadow: 0 30px 80px rgba(224, 61, 34, 0.2);
+    radial-gradient(520px 320px at 88% 18%, rgba(255, 255, 255, 0.28), transparent 60%),
+    radial-gradient(420px 280px at 12% 88%, rgba(38, 115, 184, 0.22), transparent 55%),
+    linear-gradient(155deg, #ffd2c4 0%, #f25938 42%, #c4282a 100%);
+  box-shadow: 0 30px 80px rgba(224, 61, 34, 0.22);
 }
 
-.wash {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(40px);
-  animation: drift 10s ease-in-out infinite;
-}
-
-.wash-a {
-  width: 280px;
-  height: 280px;
-  right: 12%;
-  top: 18%;
-  background: rgba(255, 255, 255, 0.35);
-}
-
-.wash-b {
-  width: 220px;
-  height: 220px;
-  left: 8%;
-  bottom: 10%;
-  background: rgba(38, 115, 184, 0.25);
-  animation-delay: -3.5s;
-}
-
-.hero-mark {
-  position: absolute;
-  right: 8%;
-  top: 50%;
-  transform: translateY(-54%);
-  width: min(42vw, 360px);
-  aspect-ratio: 1;
-  animation: float-in 1s ease forwards 0.15s;
-  opacity: 0;
-}
-
-.hero-mark img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 28%;
-  box-shadow: 0 40px 90px rgba(90, 20, 10, 0.35);
-  animation: float 6s ease-in-out infinite 1s;
-}
-
-.hero-content {
+.hero-copy {
   position: relative;
   z-index: 2;
-  max-width: 36rem;
-  padding-top: 18vh;
+  max-width: 34rem;
 }
 
 .wordmark {
   margin: 0 0 0.85rem;
   font-family: var(--font-ui);
-  font-size: clamp(3.4rem, 9vw, 6rem);
-  font-weight: 700;
+  font-size: clamp(3.2rem, 7vw, 5.4rem);
+  font-weight: 800;
   letter-spacing: -0.06em;
   line-height: 0.92;
   color: #fff;
@@ -192,7 +149,7 @@ main,
 .hero h1 {
   margin: 0 0 1rem;
   font-family: var(--font-ui);
-  font-size: clamp(1.55rem, 3.4vw, 2.15rem);
+  font-size: clamp(1.45rem, 2.8vw, 2rem);
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.3;
@@ -205,7 +162,7 @@ main,
 
 .lead {
   margin: 0 0 1.6rem;
-  color: rgba(255, 255, 255, 0.88);
+  color: rgba(255, 255, 255, 0.92);
   font-size: 1.05rem;
   line-height: 1.7;
   max-width: 30em;
@@ -225,10 +182,30 @@ main,
 
 .note {
   margin: 1rem 0 0;
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.88rem;
+  font-weight: 500;
   opacity: 0;
   animation: rise 0.75s ease forwards 0.65s;
+}
+
+.hero-aside {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: float-in 0.9s ease forwards 0.2s;
+}
+
+.hero-logo {
+  width: min(100%, 300px);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 28%;
+  box-shadow: 0 28px 70px rgba(90, 20, 10, 0.35);
+  animation: float 6s ease-in-out infinite 1s;
 }
 
 .btn {
@@ -250,19 +227,34 @@ main,
 
 .btn.primary {
   color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 28px rgba(90, 20, 10, 0.2);
+}
+
+.btn.primary:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.hero .btn.soft {
+  color: var(--ink);
+  background: #fff;
+  border: 0;
+  box-shadow: 0 10px 24px rgba(90, 20, 10, 0.16);
+}
+
+.download .btn.primary {
   background: linear-gradient(135deg, #ff7a55, var(--coral) 45%, var(--coral-deep));
+  border: 0;
   box-shadow: 0 12px 28px rgba(224, 61, 34, 0.28);
 }
 
-.btn.soft {
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-}
-
 .download .btn.soft {
+  color: var(--ink);
   background: var(--surface);
-  border-color: var(--line);
+  border: 1px solid var(--line);
+  box-shadow: none;
 }
 
 .features,
@@ -719,25 +711,19 @@ main,
 }
 
 @media (max-width: 900px) {
-  .hero {
+  .hero-shell {
+    grid-template-columns: 1fr;
     min-height: auto;
-    padding-top: 1rem;
-    padding-bottom: 3rem;
+    padding: 2.2rem 1.5rem 2rem;
+    text-align: left;
   }
 
-  .hero-plane {
-    inset: 0 -6% 42%;
+  .hero-aside {
+    order: -1;
   }
 
-  .hero-mark {
-    width: min(46vw, 180px);
-    right: 6%;
-    top: 22%;
-    transform: none;
-  }
-
-  .hero-content {
-    padding-top: 42vw;
+  .hero-logo {
+    width: min(42vw, 160px);
   }
 
   .spotlight,
