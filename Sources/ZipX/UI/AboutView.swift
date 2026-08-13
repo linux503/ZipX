@@ -6,13 +6,7 @@ struct AboutView: View {
     @ObservedObject private var updater = UpdateChecker.shared
 
     private var archLabel: String {
-        #if arch(arm64)
-        "Apple Silicon"
-        #elseif arch(x86_64)
-        "Intel"
-        #else
-        "Universal"
-        #endif
+        "Universal · Apple Silicon + Intel"
     }
 
     var body: some View {
