@@ -136,10 +136,9 @@ enum ArchiveService {
         guard let bin = findRar() else {
             throw ArchiveError.toolFailed(
                 """
-                创建 RAR 需要 RARLab 命令行工具。
-                请安装其一：
-                · brew install --cask rar
-                · 或从 https://www.rarlab.com/download.htm 下载 macOS 版
+                创建 RAR 需要额外组件（版权限制，无法内置）。
+                可在「设置 → 格式支持」一键安装，或执行：
+                brew install --cask rar
                 """
             )
         }
@@ -227,11 +226,8 @@ enum ArchiveService {
 
         throw ArchiveError.toolFailed(
             """
-            无法解压 RAR：未找到可用工具。
-            请安装其一：
-            · brew install p7zip
-            · brew install unar
-            · brew install --cask rar
+            无法解压 RAR。
+            ZipX 已内置 7-Zip，若仍失败请到「设置」查看组件状态，或重装应用。
             \(errors.isEmpty ? "" : "\n详情：\n" + errors.joined(separator: "\n"))
             """
         )
@@ -269,7 +265,7 @@ enum ArchiveService {
                 .filter { !$0.isEmpty && !$0.hasPrefix("(") && !$0.lowercased().contains("successfully") }
                 .map { ArchiveEntry(path: $0, size: nil, isDirectory: $0.hasSuffix("/")) }
         }
-        throw ArchiveError.toolFailed("无法预览 RAR。请安装：brew install p7zip 或 unar")
+        throw ArchiveError.toolFailed("无法预览 RAR。请到「设置」查看组件，或重装 ZipX")
     }
 
     // MARK: - ZIP / 7Z
@@ -340,7 +336,7 @@ enum ArchiveService {
     ) throws {
         progress?("7z 压缩中…")
         guard let bin = find7z() else {
-            throw ArchiveError.toolFailed("未找到 7z。请执行：brew install p7zip")
+            throw ArchiveError.toolFailed("内置 7-Zip 引擎不可用，请重新安装 ZipX")
         }
         if FileManager.default.fileExists(atPath: destination.path) {
             try FileManager.default.removeItem(at: destination)
@@ -398,42 +394,43 @@ enum ArchiveService {
     // MARK: - Tool discovery
 
     static func find7z() -> String? {
+        // 优先使用 App 内置 Universal 7zz
         findExecutable([
+            bundledTool("7zz"),
+            bundledTool("7z"),
             "/opt/homebrew/bin/7z",
             "/usr/local/bin/7z",
             "/opt/homebrew/bin/7zz",
             "/usr/local/bin/7zz",
             "/opt/homebrew/bin/7za",
-            "/usr/local/bin/7za",
-            bundledTool("7zz"),
-            bundledTool("7z")
+            "/usr/local/bin/7za"
         ])
     }
 
     static func findRar() -> String? {
         findExecutable([
+            bundledTool("rar"),
             "/opt/homebrew/bin/rar",
             "/usr/local/bin/rar",
             "/usr/local/bin/rar/rar",
-            "/Applications/RAR.app/Contents/MacOS/rar",
-            bundledTool("rar")
+            "/Applications/RAR.app/Contents/MacOS/rar"
         ])
     }
 
     static func findUnrar() -> String? {
         findExecutable([
+            bundledTool("unrar"),
             "/opt/homebrew/bin/unrar",
-            "/usr/local/bin/unrar",
-            bundledTool("unrar")
+            "/usr/local/bin/unrar"
         ])
     }
 
     static func findUnar() -> String? {
         findExecutable([
+            bundledTool("unar"),
             "/opt/homebrew/bin/unar",
             "/usr/local/bin/unar",
-            "/Applications/The Unarchiver.app/Contents/MacOS/unar",
-            bundledTool("unar")
+            "/Applications/The Unarchiver.app/Contents/MacOS/unar"
         ])
     }
 
@@ -446,18 +443,28 @@ enum ArchiveService {
 
     private static func bundledTool(_ name: String) -> String? {
         if let url = Bundle.main.url(forResource: name, withExtension: nil, subdirectory: "bin"),
-           FileManager.default.isExecutableFile(atPath: url.path) {
+           FileManager.default.fileExists(atPath: url.path) {
             return url.path
         }
-        let fallback = Bundle.main.bundleURL
-            .appendingPathComponent("Contents/Resources/bin/\(name)")
+        if let root = Bundle.main.resourceURL {
+            let path = root.appendingPathComponent("bin/\(name)").path
+            if FileManager.default.fileExists(atPath: path) { return path }
+        }
+        // 开发时从 dist 旁 / 源码 Resources 回退
+        let dev = URL(fileURLWithPath: #file)
+            .deletingLastPathComponent() // Core
+            .deletingLastPathComponent() // ZipX
+            .deletingLastPathComponent() // Sources
+            .deletingLastPathComponent() // root
+            .appendingPathComponent("Resources/bin/\(name)")
             .path
-        return FileManager.default.isExecutableFile(atPath: fallback) ? fallback : nil
+        if FileManager.default.fileExists(atPath: dev) { return dev }
+        return nil
     }
 
     private static func run7z(_ args: [String]) throws {
         guard let bin = find7z() else {
-            throw ArchiveError.toolFailed("未找到 7z。请执行：brew install p7zip")
+            throw ArchiveError.toolFailed("内置 7-Zip 引擎不可用，请重新安装 ZipX")
         }
         try run(bin, args)
     }

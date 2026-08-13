@@ -12,3 +12,4 @@ xcuserdata/
 DerivedData/
 
 # 可选：大体积下载包仍提交到 website/downloads 供 GitHub Pages
+.vendor/

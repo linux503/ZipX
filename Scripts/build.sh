@@ -77,10 +77,27 @@ if [[ -f "$ROOT/Resources/ZipX-logo.png" ]]; then
   sips -z 512 512 "$ROOT/Resources/ZipX-logo.png" --out "$RESOURCES/ZipX-logo.png" >/dev/null
 fi
 
+# 内置归档引擎（7zz Universal + unar）
+if [[ -d "$ROOT/Resources/bin" ]]; then
+  echo "==> Bundling archive engines..."
+  mkdir -p "$RESOURCES/bin"
+  cp -f "$ROOT/Resources/bin/"* "$RESOURCES/bin/" 2>/dev/null || true
+  chmod +x "$RESOURCES/bin/"* 2>/dev/null || true
+  xattr -cr "$RESOURCES/bin" 2>/dev/null || true
+  ls -lh "$RESOURCES/bin" || true
+fi
+
 xattr -cr "$APP_DIR" 2>/dev/null || true
 
 if command -v codesign >/dev/null; then
   echo "==> Ad-hoc codesign..."
+  # 先签内置二进制，再签 App
+  if [[ -d "$RESOURCES/bin" ]]; then
+    for bin in "$RESOURCES/bin/"*; do
+      [[ -f "$bin" && -x "$bin" ]] || continue
+      codesign --force --sign - --identifier "app.zipx.mac.bin.$(basename "$bin")" "$bin" 2>/dev/null || true
+    done
+  fi
   codesign --force --deep --sign - \
     --identifier "app.zipx.mac" \
     --entitlements "$ROOT/Resources/ZipX.entitlements" \

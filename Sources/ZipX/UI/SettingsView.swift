@@ -7,6 +7,8 @@ struct SettingsView: View {
     @AppStorage("zipx.saveBesideSource") private var saveBesideSource = true
     @AppStorage("zipx.extractBesideArchive") private var extractBesideArchive = true
     @AppStorage("zipx.autoCheckUpdate") private var autoCheckUpdate = true
+    @State private var installingRAR = false
+    @State private var installMessage: String?
 
     private var archLabel: String {
         #if arch(arm64)
@@ -149,11 +151,68 @@ struct SettingsView: View {
     }
 
     private var toolsBlock: some View {
-        settingsSection("格式支持") {
-            toolStatus("ZIP", ok: true, detail: "系统自带，开箱即用")
-            toolStatus("7Z", ok: ArchiveService.find7z() != nil, detail: ArchiveService.find7z() != nil ? "已检测到 7z" : "未安装 · brew install p7zip")
-            toolStatus("RAR 解压", ok: ArchiveService.canExtractRAR(), detail: ArchiveService.canExtractRAR() ? "可用" : "未安装 · brew install p7zip / unar")
-            toolStatus("RAR 压缩", ok: ArchiveService.canCreateRAR(), detail: ArchiveService.canCreateRAR() ? "可用" : "需安装 · brew install --cask rar")
+        settingsSection("格式支持（已集成）") {
+            Text(ToolSupport.currentStatus().summary)
+                .font(.system(size: 12))
+                .foregroundStyle(ZipXBrand.inkMuted)
+                .fixedSize(horizontal: false, vertical: true)
+
+            toolStatus(
+                "ZIP",
+                ok: true,
+                detail: "系统自带，开箱即用"
+            )
+            toolStatus(
+                "7Z 压缩 / 解压",
+                ok: ArchiveService.find7z() != nil,
+                detail: ArchiveService.find7z() != nil ? "已内置 7-Zip（Universal）" : "内置引擎缺失，请重装"
+            )
+            toolStatus(
+                "RAR 解压 / 预览",
+                ok: ArchiveService.canExtractRAR(),
+                detail: ArchiveService.canExtractRAR() ? "由内置 7-Zip 支持" : "内置引擎不可用"
+            )
+            toolStatus(
+                "RAR 压缩",
+                ok: ArchiveService.canCreateRAR(),
+                detail: ArchiveService.canCreateRAR()
+                    ? "已检测到 rar 组件"
+                    : "版权限制无法内置，可一键安装"
+            )
+
+            if !ArchiveService.canCreateRAR() {
+                HStack(spacing: 8) {
+                    Button("一键安装 RAR 组件") {
+                        installingRAR = true
+                        installMessage = "正在安装…"
+                        Task {
+                            let msg = await ToolSupport.installRARCreator()
+                            await MainActor.run {
+                                installMessage = msg
+                                installingRAR = false
+                            }
+                        }
+                    }
+                    .buttonStyle(ZipXPrimaryButtonStyle())
+                    .disabled(installingRAR)
+
+                    Button("官网下载") {
+                        ToolSupport.openRARLabDownload()
+                    }
+                    .buttonStyle(ZipXGhostButtonStyle())
+                }
+                .padding(.top, 4)
+
+                if installingRAR {
+                    ProgressView().controlSize(.small)
+                }
+                if let installMessage {
+                    Text(installMessage)
+                        .font(.system(size: 11))
+                        .foregroundStyle(ZipXBrand.inkMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
         }
     }
 

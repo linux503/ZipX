@@ -16,11 +16,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         installMenu()
+        ToolSupport.prepareBundledTools()
         showMainWindow()
 
         if !openURLs.isEmpty {
             NotificationCenter.default.post(name: .zipxOpenFiles, object: openURLs)
             openURLs.removeAll()
+        }
+
+        let first = UserDefaults.standard.bool(forKey: "zipx.didShowEngineTip") == false
+        if first {
+            UserDefaults.standard.set(true, forKey: "zipx.didShowEngineTip")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                let alert = NSAlert()
+                alert.messageText = "已内置压缩引擎"
+                alert.informativeText = "ZIP / 7Z / RAR 解压与 7Z 压缩可直接使用，无需再安装其他服务。\n\n仅「创建 RAR」因版权限制需在设置中一键安装可选组件。"
+                alert.alertStyle = .informational
+                alert.addButton(withTitle: "知道了")
+                alert.addButton(withTitle: "打开设置")
+                if alert.runModal() == .alertSecondButtonReturn {
+                    NotificationCenter.default.post(name: .zipxShowSettings, object: nil)
+                }
+            }
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {

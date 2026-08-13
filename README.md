@@ -21,7 +21,13 @@ GitHub Pages 地址（仓库启用 Pages → Deploy from branch → `/docs`）�
 
 https://linux503.github.io/ZipX/
 
-## 构建
+## 内置引擎
+
+- **7-Zip (`7zz`)**：已打进 App，支持 7Z 压缩/解压、RAR 解压/预览（Universal）
+- **unar**：辅助解压（可选）
+- **创建 RAR**：因 RARLab 版权无法内置，可在 App「设置」一键安装 `rar` 组件
+
+第三方许可见 `Resources/bin/`。
 
 ```bash
 ./Scripts/build.sh

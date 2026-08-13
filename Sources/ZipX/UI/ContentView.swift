@@ -349,12 +349,18 @@ struct ContentView: View {
                     .font(.system(size: 12))
                 }
                 if model.options.format == .rar && !ArchiveService.canCreateRAR() {
-                    Text("创建 RAR 需安装：brew install --cask rar")
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundStyle(ZipXBrand.compressTone)
+                    HStack(spacing: 8) {
+                        Text("创建 RAR 需额外组件（版权限制无法内置）")
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundStyle(ZipXBrand.compressTone)
+                        Button("去安装") { showSettings = true }
+                            .font(.system(size: 11, weight: .semibold))
+                            .buttonStyle(.borderless)
+                            .foregroundStyle(ZipXBrand.extractTone)
+                    }
                 }
                 if model.options.format == .sevenZ && ArchiveService.find7z() == nil {
-                    Text("创建 7Z 需安装：brew install p7zip")
+                    Text("内置 7-Zip 不可用，请重装 ZipX")
                         .font(.system(size: 11, weight: .medium))
                         .foregroundStyle(ZipXBrand.compressTone)
                 }
@@ -374,9 +380,11 @@ struct ContentView: View {
                         extractBesideArchive = $0
                     }
                 ))
-                if model.items.contains(where: { $0.pathExtension.lowercased() == "rar" || $0.pathExtension.lowercased() == "cbr" })
-                    && !ArchiveService.canExtractRAR() {
-                    Text("解压 RAR 需安装：brew install p7zip 或 unar")
+                if model.items.contains(where: {
+                    let e = $0.pathExtension.lowercased()
+                    return e == "rar" || e == "cbr"
+                }) && !ArchiveService.canExtractRAR() {
+                    Text("RAR 解压引擎异常，请到设置查看或重装 ZipX")
                         .font(.system(size: 11, weight: .medium))
                         .foregroundStyle(ZipXBrand.extractTone)
                 }
