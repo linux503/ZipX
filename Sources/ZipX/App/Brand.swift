@@ -4,13 +4,17 @@ import SwiftUI
 enum ZipXBrand {
     static let name = "ZipX"
     static let tagline = "压缩、解压、预览，样样好用"
-    static let version = "1.1.1"
-    static let build = "3"
+    static let version = "1.1.2"
+    static let build = "4"
 
     static let websiteURL = URL(string: "https://linux503.github.io/ZipX/")!
     static let githubURL = URL(string: "https://github.com/linux503/ZipX")!
     static let updateFeedURL = URL(string: "https://linux503.github.io/ZipX/version.json")!
     static let githubLatestAPI = URL(string: "https://api.github.com/repos/linux503/ZipX/releases/latest")!
+
+    /// 界面展示用（去掉协议）
+    static var websiteHost: String { "linux503.github.io/ZipX" }
+    static var githubHost: String { "github.com/linux503/ZipX" }
 
     /// 浅色纸感底 + 珊瑚主色（避开紫 / 奶油陶土）
     static let canvas = Color(red: 0.945, green: 0.953, blue: 0.965)

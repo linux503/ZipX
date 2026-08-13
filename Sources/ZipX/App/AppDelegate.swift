@@ -25,7 +25,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
             Task { @MainActor in
-                UpdateChecker.shared.check(manual: false)
+                let auto = UserDefaults.standard.object(forKey: "zipx.autoCheckUpdate") as? Bool ?? true
+                if auto {
+                    UpdateChecker.shared.check(manual: false)
+                }
             }
         }
     }
@@ -79,6 +82,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let appMenu = NSMenuItem()
         appMenu.submenu = NSMenu(title: ZipXBrand.name)
         appMenu.submenu?.addItem(withTitle: "关于 \(ZipXBrand.name)", action: #selector(showAbout), keyEquivalent: "")
+        appMenu.submenu?.addItem(withTitle: "设置…", action: #selector(showSettings), keyEquivalent: ",")
         appMenu.submenu?.addItem(.separator())
         appMenu.submenu?.addItem(withTitle: "检查更新…", action: #selector(checkUpdates), keyEquivalent: "")
         appMenu.submenu?.addItem(.separator())
@@ -98,8 +102,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let helpMenu = NSMenuItem()
         helpMenu.submenu = NSMenu(title: "帮助")
-        helpMenu.submenu?.addItem(withTitle: "官网", action: #selector(openWebsite), keyEquivalent: "")
-        helpMenu.submenu?.addItem(withTitle: "GitHub", action: #selector(openGitHub), keyEquivalent: "")
+        let site = NSMenuItem(title: "官网 \(ZipXBrand.websiteHost)", action: #selector(openWebsite), keyEquivalent: "")
+        helpMenu.submenu?.addItem(site)
+        let gh = NSMenuItem(title: "GitHub \(ZipXBrand.githubHost)", action: #selector(openGitHub), keyEquivalent: "")
+        helpMenu.submenu?.addItem(gh)
         main.addItem(helpMenu)
 
         NSApp.mainMenu = main
@@ -107,6 +113,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func showAbout() {
         NotificationCenter.default.post(name: .zipxShowAbout, object: nil)
+        showMainWindow()
+    }
+
+    @objc private func showSettings() {
+        NotificationCenter.default.post(name: .zipxShowSettings, object: nil)
         showMainWindow()
     }
 
@@ -134,4 +145,5 @@ extension Notification.Name {
     static let zipxOpenFiles = Notification.Name("zipx.openFiles")
     static let zipxPickFiles = Notification.Name("zipx.pickFiles")
     static let zipxShowAbout = Notification.Name("zipx.showAbout")
+    static let zipxShowSettings = Notification.Name("zipx.showSettings")
 }

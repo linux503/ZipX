@@ -6,6 +6,9 @@ struct ContentView: View {
     @StateObject private var model = ZipXViewModel()
     @ObservedObject private var updater = UpdateChecker.shared
     @State private var showAbout = false
+    @State private var showSettings = false
+    @AppStorage("zipx.saveBesideSource") private var saveBesideSource = true
+    @AppStorage("zipx.extractBesideArchive") private var extractBesideArchive = true
 
     var body: some View {
         ZStack {
@@ -51,6 +54,12 @@ struct ContentView: View {
         }
         .frame(minWidth: 760, minHeight: 560)
         .preferredColorScheme(.light)
+        .onAppear {
+            model.saveBesideSource = saveBesideSource
+            model.extractBesideArchive = extractBesideArchive
+        }
+        .onChange(of: saveBesideSource) { model.saveBesideSource = $0 }
+        .onChange(of: extractBesideArchive) { model.extractBesideArchive = $0 }
         .onReceive(NotificationCenter.default.publisher(for: .zipxOpenFiles)) { note in
             if let urls = note.object as? [URL] { model.add(urls) }
         }
@@ -60,8 +69,14 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: .zipxShowAbout)) { _ in
             showAbout = true
         }
+        .onReceive(NotificationCenter.default.publisher(for: .zipxShowSettings)) { _ in
+            showSettings = true
+        }
         .sheet(isPresented: $showAbout) {
             AboutView(isPresented: $showAbout)
+        }
+        .sheet(isPresented: $showSettings) {
+            SettingsView(isPresented: $showSettings)
         }
     }
 
@@ -84,7 +99,7 @@ struct ContentView: View {
                     .controlSize(.small)
             }
             toolbarChip("检查更新") { updater.check(manual: true) }
-            toolbarChip("关于") { showAbout = true }
+            toolbarChip("设置") { showSettings = true }
         }
         .padding(.horizontal, 28)
         .padding(.top, 22)
@@ -315,7 +330,13 @@ struct ContentView: View {
                     .frame(maxWidth: 240)
 
                     Toggle("固实", isOn: $model.options.solid)
-                    Toggle("压到原目录", isOn: $model.saveBesideSource)
+                    Toggle("压到原目录", isOn: Binding(
+                        get: { model.saveBesideSource },
+                        set: {
+                            model.saveBesideSource = $0
+                            saveBesideSource = $0
+                        }
+                    ))
 
                     HStack(spacing: 6) {
                         Text("分卷")
@@ -346,7 +367,13 @@ struct ContentView: View {
                 Text("解压选项")
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(ZipXBrand.ink)
-                Toggle("解压到压缩包所在目录", isOn: $model.extractBesideArchive)
+                Toggle("解压到压缩包所在目录", isOn: Binding(
+                    get: { model.extractBesideArchive },
+                    set: {
+                        model.extractBesideArchive = $0
+                        extractBesideArchive = $0
+                    }
+                ))
                 if model.items.contains(where: { $0.pathExtension.lowercased() == "rar" || $0.pathExtension.lowercased() == "cbr" })
                     && !ArchiveService.canExtractRAR() {
                     Text("解压 RAR 需安装：brew install p7zip 或 unar")

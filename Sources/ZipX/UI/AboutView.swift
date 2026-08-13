@@ -16,7 +16,7 @@ struct AboutView: View {
     }
 
     var body: some View {
-        VStack(spacing: 18) {
+        VStack(spacing: 16) {
             ZipXBrandMark(size: 72)
             Text(ZipXBrand.name)
                 .font(.system(size: 26, weight: .bold, design: .rounded))
@@ -27,18 +27,58 @@ struct AboutView: View {
                 .font(.caption)
                 .foregroundStyle(ZipXBrand.inkMuted)
 
-            Text("先选文件，再选压缩或解压。支持加密、分卷、固实与预览。")
-                .font(.system(size: 13))
-                .multilineTextAlignment(.center)
-                .foregroundStyle(ZipXBrand.inkMuted)
-                .frame(maxWidth: 360)
+            VStack(spacing: 8) {
+                Button {
+                    NSWorkspace.shared.open(ZipXBrand.websiteURL)
+                } label: {
+                    HStack {
+                        Text("官网")
+                            .foregroundStyle(ZipXBrand.inkMuted)
+                        Spacer()
+                        Text(ZipXBrand.websiteHost)
+                            .font(.system(size: 12, design: .monospaced))
+                            .foregroundStyle(ZipXBrand.extractTone)
+                        Image(systemName: "arrow.up.right")
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundStyle(ZipXBrand.inkMuted)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 10)
+                    .background(ZipXBrand.surface)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .stroke(ZipXBrand.line, lineWidth: 1)
+                    )
+                }
+                .buttonStyle(.plain)
 
-            HStack(spacing: 12) {
-                Button("官网") { NSWorkspace.shared.open(ZipXBrand.websiteURL) }
-                    .buttonStyle(ZipXGhostButtonStyle())
-                Button("GitHub") { NSWorkspace.shared.open(ZipXBrand.githubURL) }
-                    .buttonStyle(ZipXGhostButtonStyle())
+                Button {
+                    NSWorkspace.shared.open(ZipXBrand.githubURL)
+                } label: {
+                    HStack {
+                        Text("GitHub")
+                            .foregroundStyle(ZipXBrand.inkMuted)
+                        Spacer()
+                        Text(ZipXBrand.githubHost)
+                            .font(.system(size: 12, design: .monospaced))
+                            .foregroundStyle(ZipXBrand.extractTone)
+                        Image(systemName: "arrow.up.right")
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundStyle(ZipXBrand.inkMuted)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 10)
+                    .background(ZipXBrand.surface)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .stroke(ZipXBrand.line, lineWidth: 1)
+                    )
+                }
+                .buttonStyle(.plain)
             }
+            .frame(maxWidth: 360)
 
             Button {
                 updater.check(manual: true)
@@ -62,7 +102,7 @@ struct AboutView: View {
                 .foregroundStyle(ZipXBrand.inkMuted)
         }
         .padding(32)
-        .frame(width: 420)
+        .frame(width: 440)
         .background(ZipXBrand.canvas)
         .preferredColorScheme(.light)
     }
