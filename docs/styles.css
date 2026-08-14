@@ -935,7 +935,7 @@ main,
 }
 
 @media (max-width: 640px) {
-  .links a:not(.nav-download):not(.gh) {
+  .links > a:not(.nav-download):not(.gh) {
     display: none;
   }
 
