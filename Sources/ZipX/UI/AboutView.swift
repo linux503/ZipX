@@ -10,67 +10,27 @@ struct AboutView: View {
     }
 
     var body: some View {
-        VStack(spacing: 16) {
-            ZipXBrandMark(size: 72)
-            Text(ZipXBrand.name)
-                .font(.system(size: 26, weight: .bold, design: .rounded))
-                .foregroundStyle(ZipXBrand.ink)
-            Text(ZipXBrand.tagline)
-                .foregroundStyle(ZipXBrand.inkMuted)
-            Text("版本 \(ZipXBrand.version)（\(ZipXBrand.build)）· \(archLabel)")
-                .font(.caption)
-                .foregroundStyle(ZipXBrand.inkMuted)
+        VStack(spacing: 18) {
+            ZipXBrandMark(size: 78)
+            VStack(spacing: 6) {
+                Text(ZipXBrand.name)
+                    .font(.system(size: 28, weight: .bold, design: .rounded))
+                    .foregroundStyle(ZipXBrand.ink)
+                Text(ZipXBrand.tagline)
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(ZipXBrand.inkMuted)
+                Text("版本 \(ZipXBrand.version)（\(ZipXBrand.build)）· \(archLabel)")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(ZipXBrand.inkMuted)
+            }
 
             VStack(spacing: 8) {
-                Button {
+                linkRow(title: "官网", value: ZipXBrand.websiteHost) {
                     NSWorkspace.shared.open(ZipXBrand.websiteURL)
-                } label: {
-                    HStack {
-                        Text("官网")
-                            .foregroundStyle(ZipXBrand.inkMuted)
-                        Spacer()
-                        Text(ZipXBrand.websiteHost)
-                            .font(.system(size: 12, design: .monospaced))
-                            .foregroundStyle(ZipXBrand.extractTone)
-                        Image(systemName: "arrow.up.right")
-                            .font(.system(size: 10, weight: .semibold))
-                            .foregroundStyle(ZipXBrand.inkMuted)
-                    }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 10)
-                    .background(ZipXBrand.surface)
-                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .stroke(ZipXBrand.line, lineWidth: 1)
-                    )
                 }
-                .buttonStyle(.plain)
-
-                Button {
+                linkRow(title: "GitHub", value: ZipXBrand.githubHost) {
                     NSWorkspace.shared.open(ZipXBrand.githubURL)
-                } label: {
-                    HStack {
-                        Text("GitHub")
-                            .foregroundStyle(ZipXBrand.inkMuted)
-                        Spacer()
-                        Text(ZipXBrand.githubHost)
-                            .font(.system(size: 12, design: .monospaced))
-                            .foregroundStyle(ZipXBrand.extractTone)
-                        Image(systemName: "arrow.up.right")
-                            .font(.system(size: 10, weight: .semibold))
-                            .foregroundStyle(ZipXBrand.inkMuted)
-                    }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 10)
-                    .background(ZipXBrand.surface)
-                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .stroke(ZipXBrand.line, lineWidth: 1)
-                    )
                 }
-                .buttonStyle(.plain)
             }
             .frame(maxWidth: 360)
 
@@ -87,17 +47,45 @@ struct AboutView: View {
 
             if let msg = updater.lastMessage {
                 Text(msg)
-                    .font(.caption2)
+                    .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(ZipXBrand.inkMuted)
             }
 
             Button("关闭") { isPresented = false }
                 .keyboardShortcut(.cancelAction)
+                .font(.system(size: 12, weight: .medium))
                 .foregroundStyle(ZipXBrand.inkMuted)
+                .buttonStyle(.plain)
         }
         .padding(32)
         .frame(width: 440)
         .background(ZipXBrand.canvas)
         .preferredColorScheme(.light)
+    }
+
+    private func linkRow(title: String, value: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                Text(title)
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(ZipXBrand.inkMuted)
+                Spacer()
+                Text(value)
+                    .font(.system(size: 12, weight: .medium, design: .monospaced))
+                    .foregroundStyle(ZipXBrand.extractTone)
+                Image(systemName: "arrow.up.right")
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundStyle(ZipXBrand.inkMuted)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 11)
+            .background(ZipXBrand.surface)
+            .clipShape(RoundedRectangle(cornerRadius: ZipXBrand.radiusSM, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: ZipXBrand.radiusSM, style: .continuous)
+                    .stroke(ZipXBrand.line, lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
     }
 }

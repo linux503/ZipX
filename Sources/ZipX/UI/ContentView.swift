@@ -13,22 +13,27 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             ZipXBrand.canvas.ignoresSafeArea()
-            // soft wash
-            Circle()
-                .fill(ZipXBrand.accentColor.opacity(0.08))
-                .frame(width: 420, height: 420)
+            // 轻量氛围色块（低对比，不抢主内容）
+            Ellipse()
+                .fill(ZipXBrand.accentColor.opacity(0.06))
+                .frame(width: 520, height: 360)
+                .blur(radius: 70)
+                .offset(x: 300, y: -240)
+            Ellipse()
+                .fill(ZipXBrand.extractTone.opacity(0.05))
+                .frame(width: 440, height: 320)
                 .blur(radius: 60)
-                .offset(x: 280, y: -220)
-            Circle()
-                .fill(ZipXBrand.extractTone.opacity(0.07))
-                .frame(width: 360, height: 360)
-                .blur(radius: 50)
-                .offset(x: -300, y: 260)
+                .offset(x: -280, y: 280)
 
             VStack(spacing: 0) {
                 topBar
+                Rectangle()
+                    .fill(ZipXBrand.line.opacity(0.85))
+                    .frame(height: 1)
+                    .padding(.horizontal, 28)
+
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
+                    VStack(alignment: .leading, spacing: 22) {
                         dropZone
                         if !model.items.isEmpty {
                             fileSection
@@ -45,14 +50,16 @@ struct ContentView: View {
                             Text(model.status)
                                 .font(.system(size: 12, weight: .medium))
                                 .foregroundStyle(ZipXBrand.inkMuted)
+                                .padding(.top, 2)
                         }
                     }
-                    .padding(28)
-                    .padding(.bottom, 20)
+                    .padding(.horizontal, 28)
+                    .padding(.top, 20)
+                    .padding(.bottom, 28)
                 }
             }
         }
-        .frame(minWidth: 760, minHeight: 560)
+        .frame(minWidth: 780, minHeight: 580)
         .preferredColorScheme(.light)
         .onAppear {
             model.saveBesideSource = saveBesideSource
@@ -83,39 +90,43 @@ struct ContentView: View {
     // MARK: - Top
 
     private var topBar: some View {
-        HStack(spacing: 12) {
-            ZipXBrandMark(size: 34)
-            VStack(alignment: .leading, spacing: 1) {
+        HStack(alignment: .center, spacing: 14) {
+            ZipXBrandMark(size: 40)
+            VStack(alignment: .leading, spacing: 2) {
                 Text(ZipXBrand.name)
-                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                    .font(.system(size: 22, weight: .bold, design: .rounded))
                     .foregroundStyle(ZipXBrand.ink)
-                Text("先选文件，再选压缩或解压")
+                Text(ZipXBrand.tagline)
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(ZipXBrand.inkMuted)
             }
-            Spacer()
+            Spacer(minLength: 16)
             if model.isBusy {
                 ProgressView()
                     .controlSize(.small)
+                    .padding(.trailing, 4)
             }
-            toolbarChip("检查更新") { updater.check(manual: true) }
-            toolbarChip("设置") { showSettings = true }
+            toolbarButton("检查更新") { updater.check(manual: true) }
+            toolbarButton("设置") { showSettings = true }
         }
         .padding(.horizontal, 28)
-        .padding(.top, 22)
-        .padding(.bottom, 12)
+        .padding(.top, 18)
+        .padding(.bottom, 14)
     }
 
-    private func toolbarChip(_ title: String, action: @escaping () -> Void) -> some View {
+    private func toolbarButton(_ title: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(title)
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundStyle(ZipXBrand.inkMuted)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 7)
+                .padding(.horizontal, 13)
+                .padding(.vertical, 8)
                 .background(ZipXBrand.surface)
-                .clipShape(Capsule())
-                .overlay(Capsule().stroke(ZipXBrand.line, lineWidth: 1))
+                .clipShape(RoundedRectangle(cornerRadius: ZipXBrand.radiusSM, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: ZipXBrand.radiusSM, style: .continuous)
+                        .stroke(ZipXBrand.line, lineWidth: 1)
+                )
         }
         .buttonStyle(.plain)
     }
@@ -125,25 +136,30 @@ struct ContentView: View {
     private var dropZone: some View {
         let active = model.isDropTargeted
         return ZStack {
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(ZipXBrand.surface)
-                .shadow(color: Color.black.opacity(0.04), radius: 16, y: 6)
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
+            RoundedRectangle(cornerRadius: ZipXBrand.radiusLG, style: .continuous)
+                .fill(active ? ZipXBrand.accentSoft : ZipXBrand.surface)
+            RoundedRectangle(cornerRadius: ZipXBrand.radiusLG, style: .continuous)
                 .strokeBorder(
                     active ? ZipXBrand.accentColor : ZipXBrand.line,
-                    style: StrokeStyle(lineWidth: active ? 2 : 1.2, dash: active ? [] : [7, 6])
+                    style: StrokeStyle(lineWidth: active ? 2 : 1.2, dash: active ? [] : [6, 5])
                 )
-            VStack(spacing: 10) {
-                Image(systemName: "plus.rectangle.on.folder.fill")
-                    .font(.system(size: 32, weight: .medium))
-                    .foregroundStyle(ZipXBrand.accentColor)
+
+            VStack(spacing: 12) {
+                ZStack {
+                    Circle()
+                        .fill(ZipXBrand.accentSoft)
+                        .frame(width: 56, height: 56)
+                    Image(systemName: "plus.rectangle.on.folder.fill")
+                        .font(.system(size: 24, weight: .semibold))
+                        .foregroundStyle(ZipXBrand.accentColor)
+                }
                 Text(model.items.isEmpty ? "拖入文件或文件夹" : "继续添加文件")
-                    .font(.system(size: 16, weight: .semibold, design: .rounded))
+                    .font(.system(size: 17, weight: .semibold))
                     .foregroundStyle(ZipXBrand.ink)
-                Text("点击此处选择 · ZIP / 7Z / RAR / 文件夹均可")
-                    .font(.system(size: 12))
+                Text("点击选择 · 支持 ZIP / 7Z / RAR / 文件夹")
+                    .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(ZipXBrand.inkMuted)
-                HStack(spacing: 8) {
+                HStack(spacing: 10) {
                     Button("选择文件…") { model.pickFiles() }
                         .buttonStyle(ZipXPrimaryButtonStyle())
                     if !model.items.isEmpty {
@@ -151,11 +167,11 @@ struct ContentView: View {
                             .buttonStyle(ZipXGhostButtonStyle())
                     }
                 }
-                .padding(.top, 4)
+                .padding(.top, 2)
             }
-            .padding(28)
+            .padding(32)
         }
-        .frame(minHeight: model.items.isEmpty ? 200 : 150)
+        .frame(minHeight: model.items.isEmpty ? 220 : 156)
         .contentShape(Rectangle())
         .onTapGesture { model.pickFiles() }
         .onDrop(of: [.fileURL], isTargeted: $model.isDropTargeted) { model.handleDrop($0) }
@@ -165,56 +181,67 @@ struct ContentView: View {
 
     private var fileSection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text("已选 \(model.items.count) 项")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(ZipXBrand.ink)
-                if model.archiveCount > 0 {
-                    Text("· 其中 \(model.archiveCount) 个压缩包")
-                        .font(.system(size: 12))
-                        .foregroundStyle(ZipXBrand.inkMuted)
-                }
+            HStack(alignment: .firstTextBaseline) {
+                ZipXSectionLabel(
+                    title: "已选 \(model.items.count) 项",
+                    subtitle: model.archiveCount > 0 ? "其中 \(model.archiveCount) 个压缩包" : nil
+                )
                 Spacer()
             }
             VStack(spacing: 0) {
                 ForEach(Array(model.items.enumerated()), id: \.element) { index, url in
-                    HStack(spacing: 10) {
-                        Image(systemName: icon(for: url))
-                            .foregroundStyle(ArchiveService.isArchive(url) ? ZipXBrand.extractTone : ZipXBrand.compressTone)
-                            .frame(width: 22)
+                    HStack(spacing: 12) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                .fill(
+                                    (ArchiveService.isArchive(url) ? ZipXBrand.extractTone : ZipXBrand.compressTone)
+                                        .opacity(0.12)
+                                )
+                                .frame(width: 34, height: 34)
+                            Image(systemName: icon(for: url))
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundStyle(
+                                    ArchiveService.isArchive(url) ? ZipXBrand.extractTone : ZipXBrand.compressTone
+                                )
+                        }
                         VStack(alignment: .leading, spacing: 2) {
                             Text(url.lastPathComponent)
-                                .font(.system(size: 13, weight: .medium))
+                                .font(.system(size: 13, weight: .semibold))
                                 .foregroundStyle(ZipXBrand.ink)
                                 .lineLimit(1)
                             Text(url.deletingLastPathComponent().path)
-                                .font(.system(size: 10))
+                                .font(.system(size: 11))
                                 .foregroundStyle(ZipXBrand.inkMuted)
                                 .lineLimit(1)
                         }
-                        Spacer()
+                        Spacer(minLength: 8)
                         Text(model.sizeLabel(for: url))
                             .font(.system(size: 11, weight: .medium).monospacedDigit())
                             .foregroundStyle(ZipXBrand.inkMuted)
                         Button {
                             model.remove(url)
                         } label: {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundStyle(ZipXBrand.inkMuted.opacity(0.7))
+                            Image(systemName: "xmark")
+                                .font(.system(size: 10, weight: .bold))
+                                .foregroundStyle(ZipXBrand.inkMuted)
+                                .frame(width: 22, height: 22)
+                                .background(ZipXBrand.surfaceSoft)
+                                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                         }
                         .buttonStyle(.plain)
                     }
                     .padding(.horizontal, 14)
-                    .padding(.vertical, 10)
+                    .padding(.vertical, 11)
                     if index < model.items.count - 1 {
-                        Divider().background(ZipXBrand.line)
+                        Divider().overlay(ZipXBrand.line)
+                            .padding(.leading, 60)
                     }
                 }
             }
             .background(ZipXBrand.surface)
-            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: ZipXBrand.radiusMD, style: .continuous))
             .overlay(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                RoundedRectangle(cornerRadius: ZipXBrand.radiusMD, style: .continuous)
                     .stroke(ZipXBrand.line, lineWidth: 1)
             )
         }
@@ -227,13 +254,11 @@ struct ContentView: View {
         return ArchiveService.isArchive(url) ? "doc.zipper" : "doc.fill"
     }
 
-    // MARK: - Action chooser (选完文件后再选操作)
+    // MARK: - Action chooser
 
     private var actionChooser: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("接下来要做什么？")
-                .font(.system(size: 14, weight: .semibold, design: .rounded))
-                .foregroundStyle(ZipXBrand.ink)
+            ZipXSectionLabel(title: "接下来要做什么？", subtitle: "先选操作，再确认执行")
 
             HStack(spacing: 12) {
                 actionCard(
@@ -283,33 +308,39 @@ struct ContentView: View {
         action: @escaping () -> Void
     ) -> some View {
         Button(action: action) {
-            VStack(alignment: .leading, spacing: 10) {
-                Image(systemName: systemImage)
-                    .font(.system(size: 22, weight: .semibold))
-                    .foregroundStyle(enabled ? color : ZipXBrand.inkMuted.opacity(0.4))
-                Text(title)
-                    .font(.system(size: 16, weight: .bold, design: .rounded))
-                    .foregroundStyle(enabled ? ZipXBrand.ink : ZipXBrand.inkMuted.opacity(0.5))
-                Text(subtitle)
-                    .font(.system(size: 11))
-                    .foregroundStyle(ZipXBrand.inkMuted)
-                    .lineLimit(1)
+            VStack(alignment: .leading, spacing: 14) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .fill(enabled ? color.opacity(selected ? 0.16 : 0.10) : ZipXBrand.line.opacity(0.5))
+                        .frame(width: 40, height: 40)
+                    Image(systemName: systemImage)
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(enabled ? color : ZipXBrand.inkMuted.opacity(0.45))
+                }
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(title)
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(enabled ? ZipXBrand.ink : ZipXBrand.inkMuted.opacity(0.5))
+                    Text(subtitle)
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(ZipXBrand.inkMuted)
+                        .lineLimit(1)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(16)
             .background(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(ZipXBrand.surface)
+                RoundedRectangle(cornerRadius: ZipXBrand.radiusMD, style: .continuous)
+                    .fill(selected ? color.opacity(0.06) : ZipXBrand.surface)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .stroke(selected ? color : ZipXBrand.line, lineWidth: selected ? 2 : 1)
+                RoundedRectangle(cornerRadius: ZipXBrand.radiusMD, style: .continuous)
+                    .stroke(selected ? color : ZipXBrand.line, lineWidth: selected ? 1.8 : 1)
             )
-            .shadow(color: selected ? color.opacity(0.18) : .clear, radius: 10, y: 4)
         }
         .buttonStyle(.plain)
         .disabled(!enabled)
-        .opacity(enabled ? 1 : 0.55)
+        .opacity(enabled ? 1 : 0.58)
     }
 
     // MARK: - Options + confirm
@@ -317,9 +348,7 @@ struct ContentView: View {
     private var optionsPanel: some View {
         VStack(alignment: .leading, spacing: 14) {
             if model.pendingAction == .compress {
-                Text("压缩选项")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(ZipXBrand.ink)
+                ZipXSectionLabel(title: "压缩选项")
                 HStack(spacing: 16) {
                     Picker("格式", selection: $model.options.format) {
                         ForEach(CompressFormat.allCases) { f in
@@ -370,9 +399,7 @@ struct ContentView: View {
             }
 
             if model.pendingAction == .extract {
-                Text("解压选项")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(ZipXBrand.ink)
+                ZipXSectionLabel(title: "解压选项")
                 Toggle("解压到压缩包所在目录", isOn: Binding(
                     get: { model.extractBesideArchive },
                     set: {
@@ -402,9 +429,9 @@ struct ContentView: View {
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(ZipXBrand.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: ZipXBrand.radiusMD, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
+            RoundedRectangle(cornerRadius: ZipXBrand.radiusMD, style: .continuous)
                 .stroke(ZipXBrand.line, lineWidth: 1)
         )
     }
@@ -430,40 +457,48 @@ struct ContentView: View {
             .disabled(model.isBusy)
             .keyboardShortcut(.defaultAction)
         }
+        .padding(14)
+        .background(ZipXBrand.surface)
+        .clipShape(RoundedRectangle(cornerRadius: ZipXBrand.radiusMD, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: ZipXBrand.radiusMD, style: .continuous)
+                .stroke(ZipXBrand.line, lineWidth: 1)
+        )
     }
 
     private var previewList: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("归档内容 · \(model.previewEntries.count) 项")
-                .font(.system(size: 13, weight: .semibold))
-                .foregroundStyle(ZipXBrand.ink)
+            ZipXSectionLabel(title: "归档内容", subtitle: "\(model.previewEntries.count) 项")
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 0) {
                     ForEach(model.previewEntries) { entry in
-                        HStack {
-                            Image(systemName: entry.isDirectory ? "folder" : "doc")
+                        HStack(spacing: 10) {
+                            Image(systemName: entry.isDirectory ? "folder.fill" : "doc")
+                                .font(.system(size: 12, weight: .medium))
                                 .foregroundStyle(ZipXBrand.previewTone)
+                                .frame(width: 16)
                             Text(entry.path)
-                                .font(.system(size: 12))
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundStyle(ZipXBrand.ink)
                                 .lineLimit(1)
                             Spacer()
                             if let size = entry.size {
                                 Text(ByteCountFormatter.string(fromByteCount: size, countStyle: .file))
-                                    .font(.caption)
+                                    .font(.system(size: 11).monospacedDigit())
                                     .foregroundStyle(ZipXBrand.inkMuted)
                             }
                         }
-                        .padding(.vertical, 7)
+                        .padding(.vertical, 8)
                         .padding(.horizontal, 12)
-                        Divider()
+                        Divider().overlay(ZipXBrand.line)
                     }
                 }
             }
             .frame(maxHeight: 220)
             .background(ZipXBrand.surface)
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: ZipXBrand.radiusMD, style: .continuous))
             .overlay(
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                RoundedRectangle(cornerRadius: ZipXBrand.radiusMD, style: .continuous)
                     .stroke(ZipXBrand.line, lineWidth: 1)
             )
         }
@@ -481,8 +516,10 @@ struct ZipXPrimaryButtonStyle: ButtonStyle {
             .foregroundStyle(.white)
             .padding(.horizontal, 16)
             .padding(.vertical, 9)
-            .background(color.opacity(configuration.isPressed ? 0.85 : 1))
-            .clipShape(Capsule())
+            .background(
+                RoundedRectangle(cornerRadius: ZipXBrand.radiusSM, style: .continuous)
+                    .fill(color.opacity(configuration.isPressed ? 0.86 : 1))
+            )
     }
 }
 
@@ -493,9 +530,14 @@ struct ZipXGhostButtonStyle: ButtonStyle {
             .foregroundStyle(ZipXBrand.inkMuted)
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
-            .background(ZipXBrand.surface.opacity(configuration.isPressed ? 0.7 : 1))
-            .clipShape(Capsule())
-            .overlay(Capsule().stroke(ZipXBrand.line, lineWidth: 1))
+            .background(
+                RoundedRectangle(cornerRadius: ZipXBrand.radiusSM, style: .continuous)
+                    .fill(ZipXBrand.surface.opacity(configuration.isPressed ? 0.7 : 1))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: ZipXBrand.radiusSM, style: .continuous)
+                    .stroke(ZipXBrand.line, lineWidth: 1)
+            )
     }
 }
 

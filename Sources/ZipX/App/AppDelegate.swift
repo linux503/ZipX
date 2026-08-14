@@ -83,7 +83,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
         window.title = ZipXBrand.name
         window.titlebarAppearsTransparent = true
-        window.backgroundColor = NSColor(calibratedRed: 0.945, green: 0.953, blue: 0.965, alpha: 1)
+        window.backgroundColor = NSColor(calibratedRed: 0.941, green: 0.949, blue: 0.957, alpha: 1)
         window.minSize = NSSize(width: 760, height: 560)
         window.contentViewController = hosting
         window.center()
