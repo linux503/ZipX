@@ -1,7 +1,7 @@
 {
-  "version": "1.2.1",
-  "notes": "ZipX 1.2.1 Universal：压缩 / 解压 / 预览 / 加密 / 分卷 / 固实；支持 Apple Silicon 与 Intel。",
+  "version": "1.2.2",
+  "notes": "ZipX 1.2.2 Universal：压缩 / 解压 / 预览 / 加密 / 分卷 / 固实；支持 Apple Silicon 与 Intel。",
   "url": "https://linux503.github.io/ZipX/",
-  "dmg": "https://linux503.github.io/ZipX/downloads/ZipX-1.2.1-Universal.dmg",
-  "sha256": "1cce1e17cc25da93f9e57d58dc0216ec7ac79650685c9a95774ebfe0aa3674f6"
+  "dmg": "https://linux503.github.io/ZipX/downloads/ZipX-1.2.2-Universal.dmg",
+  "sha256": "1700d3c00c423650c91bf4e5a7f008765e4eb4f93719423cafa177cf26126ff4"
 }
