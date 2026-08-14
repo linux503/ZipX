@@ -1,7 +1,7 @@
 {
-  "version": "1.2.3",
-  "notes": "ZipX 1.2.3：全新界面色系与 Logo；压缩 / 解压 / 预览；Universal（Apple Silicon + Intel）。",
+  "version": "1.2.4",
+  "notes": "ZipX 1.2.4：RAR 组件改为从 RARLab 直接下载安装，无需 Homebrew / Xcode 许可；压缩 / 解压 / 预览；Universal（Apple Silicon + Intel）。",
   "url": "https://linux503.github.io/ZipX/",
-  "dmg": "https://linux503.github.io/ZipX/downloads/ZipX-1.2.3-Universal.dmg",
-  "sha256": "086345ba6388baf9528c3ad241d46bff97eceb33aaf5dc829672dbaa8dcec787"
+  "dmg": "https://linux503.github.io/ZipX/downloads/ZipX-1.2.4-Universal.dmg",
+  "sha256": "c2f7ef49551c174a4a3c854450a7daf69af1d65a1c2df9adad7a282c28cd9ed7"
 }

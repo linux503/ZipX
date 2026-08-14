@@ -4,8 +4,8 @@ import SwiftUI
 enum ZipXBrand {
     static let name = "ZipX"
     static let tagline = "压缩、解压、预览，样样好用"
-    static let version = "1.2.3"
-    static let build = "9"
+    static let version = "1.2.4"
+    static let build = "10"
 
     static let websiteURL = URL(string: "https://linux503.github.io/ZipX/")!
     static let githubURL = URL(string: "https://github.com/linux503/ZipX")!

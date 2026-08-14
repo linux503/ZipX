@@ -5,7 +5,7 @@
 面向 macOS 的归档工具。先选文件，再选压缩 / 解压 / 预览。  
 **Universal Binary**：同时支持 **Apple Silicon（M 系列）** 与 **Intel**。
 
-[官网](https://linux503.github.io/ZipX/) · [下载 DMG](https://linux503.github.io/ZipX/downloads/ZipX-1.2.3-Universal.dmg) · [Releases](https://github.com/linux503/ZipX/releases)
+[官网](https://linux503.github.io/ZipX/) · [下载 DMG](https://linux503.github.io/ZipX/downloads/ZipX-1.2.4-Universal.dmg) · [Releases](https://github.com/linux503/ZipX/releases)
 
 ![ZipX Poster](docs/assets/poster.jpg)
 
@@ -29,7 +29,7 @@
 
 ## 下载安装
 
-1. 打开官网下载：[ZipX 1.2.3 Universal.dmg](https://linux503.github.io/ZipX/downloads/ZipX-1.2.3-Universal.dmg)
+1. 打开官网下载：[ZipX 1.2.4 Universal.dmg](https://linux503.github.io/ZipX/downloads/ZipX-1.2.4-Universal.dmg)
 2. 打开 DMG，将 **ZipX** 拖到「应用程序」
 3. 首次打开如遇安全提示：系统设置 → 隐私与安全性 → 仍要打开
 

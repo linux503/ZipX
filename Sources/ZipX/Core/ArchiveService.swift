@@ -408,8 +408,10 @@ enum ArchiveService {
     }
 
     static func findRar() -> String? {
-        findExecutable([
+        let userBin = userRARBin("rar")
+        return findExecutable([
             bundledTool("rar"),
+            userBin,
             "/opt/homebrew/bin/rar",
             "/usr/local/bin/rar",
             "/usr/local/bin/rar/rar",
@@ -418,11 +420,18 @@ enum ArchiveService {
     }
 
     static func findUnrar() -> String? {
-        findExecutable([
+        let userBin = userRARBin("unrar")
+        return findExecutable([
             bundledTool("unrar"),
+            userBin,
             "/opt/homebrew/bin/unrar",
             "/usr/local/bin/unrar"
         ])
+    }
+
+    private static func userRARBin(_ name: String) -> String? {
+        let path = ToolSupport.userRARBinDirectory().appendingPathComponent(name).path
+        return FileManager.default.fileExists(atPath: path) ? path : nil
     }
 
     static func findUnar() -> String? {
