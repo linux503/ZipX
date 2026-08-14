@@ -132,7 +132,7 @@ struct SettingsView: View {
         let zip = "ZIP ✓"
         let seven = ArchiveService.find7z() != nil ? "7Z ✓" : "7Z ✗"
         let rarX = ArchiveService.canExtractRAR() ? "RAR解压 ✓" : "RAR解压 ✗"
-        let rarC = ArchiveService.canCreateRAR() ? "RAR压缩 ✓" : "RAR压缩 需组件"
+        let rarC = ArchiveService.canCreateRAR() ? "RAR压缩 ✓" : "RAR压缩 ✗"
         return "\(zip)  ·  \(seven)  ·  \(rarX)  ·  \(rarC)"
     }
 

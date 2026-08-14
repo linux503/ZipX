@@ -379,10 +379,10 @@ struct ContentView: View {
                 }
                 if model.options.format == .rar && !ArchiveService.canCreateRAR() {
                     HStack(spacing: 8) {
-                        Text("创建 RAR 需额外组件（版权限制无法内置）")
+                        Text("RAR 引擎异常，请到设置检查或重装 ZipX")
                             .font(.system(size: 11, weight: .medium))
                             .foregroundStyle(ZipXBrand.compressTone)
-                        Button("去安装") { showSettings = true }
+                        Button("去设置") { showSettings = true }
                             .font(.system(size: 11, weight: .semibold))
                             .buttonStyle(.borderless)
                             .foregroundStyle(ZipXBrand.extractTone)

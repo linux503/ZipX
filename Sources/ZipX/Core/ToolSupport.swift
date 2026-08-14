@@ -14,8 +14,8 @@ enum ToolSupport {
             var parts: [String] = []
             if sevenZip { parts.append("7-Zip 已内置") }
             if rarExtract { parts.append("RAR 解压可用") }
-            if rarCreate { parts.append("RAR 压缩可用") }
-            else { parts.append("RAR 压缩需额外组件") }
+        if rarCreate { parts.append("RAR 压缩可用") }
+        else { parts.append("RAR 压缩不可用") }
             return parts.joined(separator: " · ")
         }
     }

@@ -77,7 +77,8 @@ if [[ -f "$ROOT/Resources/ZipX-logo.png" ]]; then
   sips -z 512 512 "$ROOT/Resources/ZipX-logo.png" --out "$RESOURCES/ZipX-logo.png" >/dev/null
 fi
 
-# 内置归档引擎（7zz Universal + unar）
+# 内置归档引擎（7zz Universal + unar + rar/unrar）
+"$ROOT/Scripts/bundle_rar.sh"
 if [[ -d "$ROOT/Resources/bin" ]]; then
   echo "==> Bundling archive engines..."
   mkdir -p "$RESOURCES/bin"
