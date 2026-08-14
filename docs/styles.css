@@ -101,15 +101,6 @@ main,
   color: #fff;
 }
 
-.nav:not(.scrolled) .more-apps > summary {
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.nav:not(.scrolled) .more-apps > summary:hover,
-.nav:not(.scrolled) .more-apps[open] > summary {
-  background: rgba(255, 255, 255, 0.12);
-}
-
 .nav:not(.scrolled) .gh {
   color: #fff;
   border-color: rgba(255, 255, 255, 0.35);
