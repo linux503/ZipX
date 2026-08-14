@@ -7,45 +7,50 @@
   <meta name="description" content="ZipX：Mac 压缩解压工具。支持 ZIP / 7Z / RAR，加密、分卷、固实与预览。Universal：Apple Silicon + Intel。" />
   <meta property="og:title" content="ZipX for Mac" />
   <meta property="og:description" content="压缩、解压、预览，样样好用。" />
-  <meta property="og:image" content="assets/logo.png" />
+  <meta property="og:image" content="assets/poster.jpg" />
   <link rel="icon" href="assets/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=1.2.1" />
+  <link rel="stylesheet" href="styles.css?v=1.2.2" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
 
   <header class="nav">
-    <a class="brand" href="#">
-      <img src="assets/logo.png" alt="ZipX" width="32" height="32" />
+    <a class="brand" href="#top">
+      <img src="assets/logo.png" alt="" width="32" height="32" />
       <span>ZipX</span>
     </a>
-    <nav class="links">
+    <nav class="links" aria-label="主导航">
+      <a href="#poster">海报</a>
       <a href="#features">功能</a>
       <a href="#flow">怎么用</a>
-      <a href="#download">下载</a>
+      <a class="nav-download" href="#download">下载</a>
       <a class="gh" href="https://github.com/linux503/ZipX" target="_blank" rel="noopener">GitHub</a>
     </nav>
   </header>
 
   <main>
     <section class="hero" id="top">
-      <div class="hero-shell">
+      <div class="hero-poster" id="poster">
+        <img
+          class="poster-img"
+          src="assets/poster.jpg"
+          alt="ZipX — 压缩、解压、预览，样样好用"
+          width="1920"
+          height="1080"
+        />
+        <div class="poster-shade" aria-hidden="true"></div>
         <div class="hero-copy">
           <p class="wordmark">ZipX</p>
           <h1>压缩、解压、预览，样样好用！</h1>
-          <p class="lead">先选文件，再选压缩或解压。支持 ZIP / 7Z / RAR，加密、分卷、固实，Universal 通吃 Apple Silicon 与 Intel。</p>
+          <p class="lead">先选文件，再选压缩或解压。支持 ZIP / 7Z / RAR，加密、分卷、固实。Universal：Apple Silicon + Intel。</p>
           <div class="cta">
             <a class="btn primary" href="downloads/ZipX-1.2.1-Universal.dmg">下载 macOS 版</a>
             <a class="btn soft" href="#features">进一步了解</a>
           </div>
           <p class="note">v1.2.1 · Universal · macOS 13+</p>
-        </div>
-        <div class="hero-aside" aria-hidden="true">
-          <div class="logo-glow"></div>
-          <img class="hero-logo" src="assets/logo.png" alt="" />
         </div>
       </div>
     </section>
