@@ -9,6 +9,14 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
   });
 });
 
+const nav = document.getElementById("nav");
+function syncNav() {
+  if (!nav) return;
+  nav.classList.toggle("scrolled", window.scrollY > 48);
+}
+syncNav();
+window.addEventListener("scroll", syncNav, { passive: true });
+
 const reveals = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
 const reduceMotion =
   window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -31,13 +39,12 @@ if (reduceMotion || !("IntersectionObserver" in window)) {
         }
       });
     },
-    { threshold: 0.12, rootMargin: "0px 0px -32px 0px" }
+    { threshold: 0.1, rootMargin: "0px 0px -24px 0px" }
   );
   reveals.forEach(function (el) {
     io.observe(el);
   });
 
-  // Safari 偶发首屏不触发：兜底显示
   setTimeout(function () {
     reveals.forEach(function (el) {
       if (!el.classList.contains("in")) {
