@@ -132,6 +132,10 @@ main,
   gap: 0.15rem 0.3rem;
 }
 
+.links .more-apps {
+  display: inline-flex;
+}
+
 .links a {
   text-decoration: none;
   color: var(--muted);
@@ -830,6 +834,10 @@ main,
 
   .links > a:not(.nav-download):not(.gh) {
     display: none;
+  }
+
+  .links .more-apps {
+    display: inline-flex;
   }
 
   .hero {

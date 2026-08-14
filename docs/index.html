@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=1.3.1" />
-  <link rel="stylesheet" href="more-apps.css?v=4" />
+  <link rel="stylesheet" href="more-apps.css?v=5" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -27,7 +27,40 @@
       <nav class="links" aria-label="主导航">
         <a href="#features">功能</a>
         <a href="#flow">怎么用</a>
-        <span data-more-apps="zipx"></span>
+        <details class="more-apps" data-more-apps="zipx">
+          <summary>
+            <span class="more-apps-ico" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <span class="more-apps-label">更多软件</span>
+            <span class="more-apps-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="more-apps-panel" role="menu">
+            <div class="more-apps-head">linux503 其他工具</div>
+            <a href="https://linux503.github.io/Flare/" target="_blank" rel="noopener noreferrer" role="menuitem" style="--app-accent:#0f9f6e">
+              <span class="more-apps-badge">Fl</span>
+              <span class="app-name">Flare</span>
+              <span class="app-desc">截图录屏</span>
+              <span class="more-apps-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a href="https://linux503.github.io/MacText/" target="_blank" rel="noopener noreferrer" role="menuitem" style="--app-accent:#3b5bdb">
+              <span class="more-apps-badge">Mt</span>
+              <span class="app-name">MacText</span>
+              <span class="app-desc">文本编辑</span>
+              <span class="more-apps-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a href="https://linux503.github.io/suptools/" target="_blank" rel="noopener noreferrer" role="menuitem" style="--app-accent:#0d7a6c">
+              <span class="more-apps-badge">St</span>
+              <span class="app-name">SupTools</span>
+              <span class="app-desc">macOS 超级工具箱</span>
+              <span class="more-apps-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a href="https://linux503.github.io/MacFan/" target="_blank" rel="noopener noreferrer" role="menuitem" style="--app-accent:#0891b2">
+              <span class="more-apps-badge">Mf</span>
+              <span class="app-name">MacFan</span>
+              <span class="app-desc">精准控制 Mac 风扇转速</span>
+              <span class="more-apps-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </details>
         <a class="nav-download" href="#download">下载</a>
         <a class="gh" href="https://github.com/linux503/ZipX" target="_blank" rel="noopener">GitHub</a>
       </nav>
@@ -200,6 +233,6 @@
   </footer>
 
   <script src="script.js?v=3"></script>
-  <script src="more-apps.js?v=4" defer></script>
+  <script src="more-apps.js?v=5" defer></script>
 </body>
 </html>
